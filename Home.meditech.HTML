@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MediTech - Advanced Medical Care</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+        body {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #1a202c;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100%;
+        }
+
+        html {
+            height: 100%;
+        }
+
+        /* Navigation */
+        .navbar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #2d3748;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #4a5568;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        /* Hero Section with Doctor Background */
+        .hero {
+            min-height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            padding: 8rem 2rem 4rem;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%);
+            z-index: 1;
+        }
+
+        .doctor-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 0;
+        }
+
+        .doctor-silhouette {
+            position: absolute;
+            opacity: 0.3;
+            filter: brightness(0) invert(1);
+        }
+
+        .doctor-1 {
+            bottom: 0;
+            right: 10%;
+            width: 300px;
+            height: 400px;
+        }
+
+        .doctor-2 {
+            bottom: 0;
+            left: 10%;
+            width: 250px;
+            height: 350px;
+        }
+
+        .doctor-3 {
+            top: 20%;
+            right: 5%;
+            width: 200px;
+            height: 250px;
+            opacity: 0.2;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.95;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: #48bb78;
+            color: white;
+            padding: 1rem 2.5rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(72, 187, 120, 0.4);
+        }
+
+        .cta-button:hover {
+            background: #38a169;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(72, 187, 120, 0.6);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 4rem 2rem;
+            background: white;
+            position: relative;
+            z-index: 2;
+        }
+
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: #f7fafc;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            border: 1px solid #e2e8f0;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            color: #2d3748;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .feature-card p {
+            color: #718096;
+            line-height: 1.6;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .doctor-1, .doctor-2, .doctor-3 {
+                display: none;
+            }
+
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            .hero {
+                padding: 6rem 1rem 4rem;
+            }
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <nav class="navbar">
+   <div class="nav-container"><a href="#" class="logo" id="site-title">MediTech</a>
+    <ul class="nav-links">
+     <li><a href="Home.meditech.HTML">Home</a></li>
+     <li><a href="login.meditech.HTML">Login</a></li>
+     <li><a href="Regestration.meditech.HTML">Registration</a></li>
+     <li><a href="Hospital.meditech.HTML">Hospital</a></li>
+     <li><a href="video.meditech.HTML">Video Consultant</a></li>
+     <li><a href="vid.meditech.HTML">Videos</a></li>
+     <li><a href="Contact.meditech.HTML">Contacts</a></li>
+     <li><a href="about.meditech.HTML">About</a></li>
+    </ul>
+   </div>
+  </nav>
+  <section class="hero">
+   <div class="doctor-background"><!-- Doctor Silhouettes using SVG -->
+    <svg class="doctor-silhouette doctor-1" viewbox="0 0 300 400" fill="currentColor"><path d="M150 50c25 0 45 20 45 45s-20 45-45 45-45-20-45-45 20-45 45-45zm-60 120h120c15 0 30 10 35 25l20 80v125H75V275l20-80c5-15 20-25 35-25z" /> <circle cx="150" cy="95" r="35" /> <rect x="120" y="180" width="60" height="15" rx="7" /> <rect x="130" y="200" width="40" height="8" rx="4" />
+    </svg>
+    <svg class="doctor-silhouette doctor-2" viewbox="0 0 250 350" fill="currentColor"><path d="M125 40c20 0 35 15 35 35s-15 35-35 35-35-15-35-35 15-35 35-35zm-50 100h100c12 0 25 8 30 20l15 65v125H60V225l15-65c5-12 18-20 30-20z" /> <circle cx="125" cy="75" r="30" /> <rect x="100" y="150" width="50" height="12" rx="6" />
+    </svg>
+    <svg class="doctor-silhouette doctor-3" viewbox="0 0 200 250" fill="currentColor"><path d="M100 30c15 0 25 10 25 25s-10 25-25 25-25-10-25-25 10-25 25-25zm-40 80h80c10 0 20 6 25 15l10 50v95H65V175l10-50c5-9 15-15 25-15z" /> <circle cx="100" cy="55" r="20" />
+    </svg>
+   </div>
+   <div class="hero-content">
+    <h1 id="hero-title">Your Health, Our Priority</h1>
+    <p id="hero-subtitle">Advanced medical care with cutting-edge technology and compassionate healthcare professionals dedicated to your wellbeing.</p><a href="#features" class="cta-button" id="cta-button">Get Started</a>
+   </div>
+  </section>
+  <section class="features" id="features">
+   <div class="features-container">
+    <div class="feature-card">
+     <div class="feature-icon">
+      🏥
+     </div>
+     <h3>Hospital Network</h3>
+     <p>Access to top-tier hospitals and medical facilities with state-of-the-art equipment and expert medical staff.</p>
+    </div>
+    <div class="feature-card">
+     <div class="feature-icon">
+      💻
+     </div>
+     <h3>Video Consultations</h3>
+     <p>Connect with healthcare professionals from the comfort of your home through secure video consultations.</p>
+    </div>
+    <div class="feature-card">
+     <div class="feature-icon">
+      📱
+     </div>
+     <h3>Digital Health Records</h3>
+     <p>Secure, accessible digital health records that follow you wherever you go for seamless care coordination.</p>
+    </div>
+   </div>
+  </section>
+  <script>
+        const defaultConfig = {
+            site_title: "MediTech",
+            hero_title: "Your Health, Our Priority",
+            hero_subtitle: "Advanced medical care with cutting-edge technology and compassionate healthcare professionals dedicated to your wellbeing.",
+            cta_button: "Get Started",
+            background_color: "#667eea",
+            surface_color: "#ffffff",
+            text_color: "#1a202c",
+            primary_action_color: "#48bb78",
+            secondary_action_color: "#667eea",
+            font_family: "Inter",
+            font_size: 16
+        };
+
+        async function onConfigChange(config) {
+            const siteTitle = config.site_title || defaultConfig.site_title;
+            const heroTitle = config.hero_title || defaultConfig.hero_title;
+            const heroSubtitle = config.hero_subtitle || defaultConfig.hero_subtitle;
+            const ctaButton = config.cta_button || defaultConfig.cta_button;
+            const backgroundColor = config.background_color || defaultConfig.background_color;
+            const surfaceColor = config.surface_color || defaultConfig.surface_color;
+            const textColor = config.text_color || defaultConfig.text_color;
+            const primaryActionColor = config.primary_action_color || defaultConfig.primary_action_color;
+            const secondaryActionColor = config.secondary_action_color || defaultConfig.secondary_action_color;
+            const fontFamily = config.font_family || defaultConfig.font_family;
+            const fontSize = config.font_size || defaultConfig.font_size;
+
+            // Update text content
+            document.getElementById('site-title').textContent = siteTitle;
+            document.getElementById('hero-title').textContent = heroTitle;
+            document.getElementById('hero-subtitle').textContent = heroSubtitle;
+            document.getElementById('cta-button').textContent = ctaButton;
+
+            // Update colors
+            document.body.style.background = `linear-gradient(135deg, ${backgroundColor} 0%, #764ba2 100%)`;
+            document.querySelector('.hero::before').style.background = `linear-gradient(135deg, ${backgroundColor}cc 0%, #764ba2cc 100%)`;
+            document.querySelector('.navbar').style.background = `${surfaceColor}f2`;
+            document.querySelector('.features').style.background = surfaceColor;
+            document.querySelector('.hero-content').style.color = surfaceColor;
+            document.querySelector('.logo').style.color = textColor;
+            document.querySelector('.cta-button').style.background = primaryActionColor;
+
+            // Update font
+            const baseFontStack = 'Arial, sans-serif';
+            document.body.style.fontFamily = `${fontFamily}, ${baseFontStack}`;
+
+            // Update font sizes
+            document.getElementById('hero-title').style.fontSize = `${fontSize * 2.2}px`;
+            document.getElementById('hero-subtitle').style.fontSize = `${fontSize * 1.3}px`;
+            document.querySelector('.logo').style.fontSize = `${fontSize * 1.8}px`;
+            document.querySelector('.cta-button').style.fontSize = `${fontSize * 1.1}px`;
+        }
+
+        function mapToCapabilities(config) {
+            return {
+                recolorables: [
+                    {
+                        get: () => config.background_color || defaultConfig.background_color,
+                        set: (value) => {
+                            if (window.elementSdk) {
+                                window.elementSdk.setConfig({ background_color: value });
+                            }
+                        }
+                    },
+                    {
+                        get: () => config.surface_color || defaultConfig.surface_color,
+                        set: (value) => {
+                            if (window.elementSdk) {
+                                window.elementSdk.setConfig({ surface_color: value });
+                            }
+                        }
+                    },
+                    {
+                        get: () => config.text_color || defaultConfig.text_color,
+                        set: (value) => {
+                            if (window.elementSdk) {
+                                window.elementSdk.setConfig({ text_color: value });
+                            }
+                        }
+                    },
+                    {
+                        get: () => config.primary_action_color || defaultConfig.primary_action_color,
+                        set: (value) => {
+                            if (window.elementSdk) {
+                                window.elementSdk.setConfig({ primary_action_color: value });
+                            }
+                        }
+                    },
+                    {
+                        get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
+                        set: (value) => {
+                            if (window.elementSdk) {
+                                window.elementSdk.setConfig({ secondary_action_color: value });
+                            }
+                        }
+                    }
+                ],
+                borderables: [],
+                fontEditable: {
+                    get: () => config.font_family || defaultConfig.font_family,
+                    set: (value) => {
+                        if (window.elementSdk) {
+                            window.elementSdk.setConfig({ font_family: value });
+                        }
+                    }
+                },
+                fontSizeable: {
+                    get: () => config.font_size || defaultConfig.font_size,
+                    set: (value) => {
+                        if (window.elementSdk) {
+                            window.elementSdk.setConfig({ font_size: value });
+                        }
+                    }
+                }
+            };
+        }
+
+        function mapToEditPanelValues(config) {
+            return new Map([
+                ["site_title", config.site_title || defaultConfig.site_title],
+                ["hero_title", config.hero_title || defaultConfig.hero_title],
+                ["hero_subtitle", config.hero_subtitle || defaultConfig.hero_subtitle],
+                ["cta_button", config.cta_button || defaultConfig.cta_button]
+            ]);
+        }
+
+        // Initialize SDK
+        if (window.elementSdk) {
+            window.elementSdk.init({
+                defaultConfig,
+                onConfigChange,
+                mapToCapabilities,
+                mapToEditPanelValues
+            });
+        }
+
+        // Smooth scrolling for CTA button
+        document.getElementById('cta-button').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.getElementById('features').scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99e3c01dc62b4466',t:'MTc2MzA5NDM4NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

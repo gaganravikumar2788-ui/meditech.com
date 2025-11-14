@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registeration for booking the appointment with the doctor</title>
+     <script>
+        alert('you can register here and book a appointment with your wish doctor')
+     </script>
+    <style>
+        
+        body {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #010411 0%, #764ba2 100%);
+            min-height: 100%;
+            background-image: url('image4.jpeg');
+        }
+        
+        html {
+            height: 100%;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        
+        .header p {
+            margin: 10px 0 0 0;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        .hospital-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .hospital-card {
+            background: #f8f9ff;
+            border: 2px solid #e1e8ff;
+            border-radius: 15px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .hospital-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border-color: #4facfe;
+        }
+        
+
+        
+        .hospital-card h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .hospital-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .doctors-section {
+            margin-top: 30px;
+            padding: 30px;
+            background: #f8f9ff;
+            border-radius: 15px;
+            border: 2px solid #e1e8ff;
+        }
+        
+        .doctors-section h2 {
+            color: #333;
+            margin: 0 0 20px 0;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+        
+        .doctors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .doctor-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border-left: 4px solid #4facfe;
+        }
+        
+        .doctor-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+            margin: 0 0 8px 0;
+        }
+        
+        .doctor-specialty {
+            color: #666;
+            font-size: 1rem;
+            margin: 0 0 8px 0;
+        }
+        
+        .doctor-experience {
+            color: #888;
+            font-size: 0.9rem;
+            margin: 0 0 15px 0;
+        }
+        
+        .book-appointment-btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .book-appointment-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
+        }
+        
+        .appointment-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80%;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .modal-header h3 {
+            color: #333;
+            margin: 0 0 10px 0;
+            font-size: 1.5rem;
+        }
+        
+        .modal-header p {
+            color: #666;
+            margin: 0;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e8ff;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #4facfe;
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            flex: 1;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #f8f9ff;
+            color: #666;
+            border: 2px solid #e1e8ff;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            flex: 1;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background: #e1e8ff;
+        }
+        
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 20px 0;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .no-selection {
+            text-align: center;
+            color: #666;
+            font-size: 1.1rem;
+            padding: 40px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .hospital-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .doctors-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+        .header{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header><img src="image.npg.png"
+
+    <div class="container">
+        <div class="header">
+            <h1>Registeration for booking an appointment with the doctor</h1>
+            <p>Select a hospital to view available doctors</p>
+        </div>
+        
+        <div class="content">
+            <div class="hospital-grid">
+                <div class="hospital-card" onclick="selectHospital('fortis')">
+                    <div class="hospital-icon">🏥</div>
+                    <h3>Fortis Hospital</h3>
+                </div>
+                
+                <div class="hospital-card" onclick="selectHospital('narayana')">
+                    <div class="hospital-icon">🏥</div>
+                    <h3>Narayana Hospital</h3>
+                </div>
+                
+                <div class="hospital-card" onclick="selectHospital('kangroo')">
+                    <div class="hospital-icon">🏥</div>
+                    <h3>Kangroo Health Care</h3>
+                </div>
+                
+                <div class="hospital-card" onclick="selectHospital('ramaih')">
+                    <div class="hospital-icon">🏥</div>
+                    <h3>Ramaih Hospital</h3>
+                </div>
+                
+                <div class="hospital-card" onclick="selectHospital('ramakrishna')">
+                    <div class="hospital-icon">🏥</div>
+                    <h3>Ramakrishna Hospital</h3>
+                </div>
+                
+                <div class="hospital-card" onclick="selectHospital('manipal')">
+                    <div class="hospital-icon">🏥</div>
+                    <h3>Manipal Hospital</h3>
+                </div>
+                
+                <div class="hospital-card" onclick="selectHospital('maggi')">
+                    <div class="hospital-icon">🏥</div>
+                    <h3>Maggi General Hospital</h3>
+                </div>
+                
+                <div class="hospital-card" onclick="selectHospital('gm')">
+                    <div class="hospital-icon">🏥</div>
+                    <h3>GM Health Care</h3>
+                </div>
+            </div>
+            
+            <div id="no-selection" class="no-selection">
+                👆 Click on any hospital above to see the doctors working there
+            </div>
+            
+            <div id="doctors-section" class="doctors-section hidden">
+                <h2 id="hospital-name"></h2>
+                <div id="doctors-grid" class="doctors-grid"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Appointment Modal -->
+    <div id="appointment-modal" class="appointment-modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Book Appointment</h3>
+                <p id="selected-doctor-info"></p>
+            </div>
+            
+            <form id="appointment-form">
+                <div class="form-group">
+                    <label for="patient-name">Patient Name *</label>
+                    <input type="text" id="patient-name" name="patientName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="patient-phone">Phone Number *</label>
+                    <input type="tel" id="patient-phone" name="patientPhone" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="patient-email">Email Address</label>
+                    <input type="email" id="patient-email" name="patientEmail">
+                </div>
+                
+                <div class="form-group">
+                    <label for="appointment-date">Preferred Date *</label>
+                    <input type="date" id="appointment-date" name="appointmentDate" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="appointment-time">Preferred Time *</label>
+                    <select id="appointment-time" name="appointmentTime" required>
+                        <option value="">Select Time</option>
+                        <option value="09:00">9:00 AM</option>
+                        <option value="09:30">9:30 AM</option>
+                        <option value="10:00">10:00 AM</option>
+                        <option value="10:30">10:30 AM</option>
+                        <option value="11:00">11:00 AM</option>
+                        <option value="11:30">11:30 AM</option>
+                        <option value="14:00">2:00 PM</option>
+                        <option value="14:30">2:30 PM</option>
+                        <option value="15:00">3:00 PM</option>
+                        <option value="15:30">3:30 PM</option>
+                        <option value="16:00">4:00 PM</option>
+                        <option value="16:30">4:30 PM</option>
+                        <option value="17:00">5:00 PM</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="reason">Reason for Visit</label>
+                    <textarea id="reason" name="reason" placeholder="Brief description of your health concern or reason for consultation"></textarea>
+                </div>
+                
+                <div class="modal-buttons">
+                    <button type="button" class="btn-secondary" onclick="closeAppointmentModal()">Cancel</button>
+                    <button type="submit" class="btn-primary">Book Appointment</button>
+                </div>
+            </form>
+            
+            <div id="success-message" class="success-message hidden">
+                <h4>✅ Appointment Booked Successfully!</h4>
+                <p>Your appointment has been scheduled. You will receive a confirmation call within 24 hours.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const hospitalDoctors = {
+            fortis: {
+                name: "Fortis Hospital",
+                doctors: [
+                    { name: "Dr. Rajesh Kumar", specialty: "Cardiology", experience: "15 years experience" },
+                    { name: "Dr. Priya Sharma", specialty: "Neurology", experience: "12 years experience" },
+                    { name: "Dr. Amit Patel", specialty: "Orthopedics", experience: "18 years experience" },
+                    { name: "Dr. Sunita Reddy", specialty: "Pediatrics", experience: "10 years experience" }
+                ]
+            },
+            narayana: {
+                name: "Narayana Hospital",
+                doctors: [
+                    { name: "Dr. Venkat Rao", specialty: "Gastroenterology", experience: "20 years experience" },
+                    { name: "Dr. Lakshmi Devi", specialty: "Gynecology", experience: "14 years experience" },
+                    { name: "Dr. Ravi Chandra", specialty: "Pulmonology", experience: "16 years experience" },
+                    { name: "Dr. Meera Nair", specialty: "Dermatology", experience: "8 years experience" }
+                ]
+            },
+            kangroo: {
+                name: "Kangroo Health Care",
+                doctors: [
+                    { name: "Dr. Suresh Babu", specialty: "General Medicine", experience: "22 years experience" },
+                    { name: "Dr. Kavitha Menon", specialty: "Endocrinology", experience: "11 years experience" },
+                    { name: "Dr. Arun Kumar", specialty: "Urology", experience: "13 years experience" },
+                    { name: "Dr. Deepa Singh", specialty: "Ophthalmology", experience: "9 years experience" }
+                ]
+            },
+            ramaih: {
+                name: "Ramaih Hospital",
+                doctors: [
+                    { name: "Dr. Krishnan Iyer", specialty: "Oncology", experience: "25 years experience" },
+                    { name: "Dr. Shalini Gupta", specialty: "Rheumatology", experience: "17 years experience" },
+                    { name: "Dr. Mahesh Reddy", specialty: "Nephrology", experience: "19 years experience" },
+                    { name: "Dr. Anita Joshi", specialty: "Psychiatry", experience: "12 years experience" }
+                ]
+            },
+            ramakrishna: {
+                name: "Ramakrishna Hospital",
+                doctors: [
+                    { name: "Dr. Balaji Rao", specialty: "Cardiothoracic Surgery", experience: "28 years experience" },
+                    { name: "Dr. Radha Krishna", specialty: "Neurosurgery", experience: "21 years experience" },
+                    { name: "Dr. Sita Devi", specialty: "Plastic Surgery", experience: "15 years experience" },
+                    { name: "Dr. Gopal Sharma", specialty: "Emergency Medicine", experience: "10 years experience" }
+                ]
+            },
+            manipal: {
+                name: "Manipal Hospital",
+                doctors: [
+                    { name: "Dr. Vikram Singh", specialty: "Interventional Cardiology", experience: "24 years experience" },
+                    { name: "Dr. Pooja Agarwal", specialty: "Hematology", experience: "13 years experience" },
+                    { name: "Dr. Ramesh Chand", specialty: "Vascular Surgery", experience: "18 years experience" },
+                    { name: "Dr. Nisha Patel", specialty: "Infectious Diseases", experience: "11 years experience" }
+                ]
+            },
+            maggi: {
+                name: "Maggi General Hospital",
+                doctors: [
+                    { name: "Dr. Harish Kumar", specialty: "Family Medicine", experience: "16 years experience" },
+                    { name: "Dr. Swati Jain", specialty: "Anesthesiology", experience: "14 years experience" },
+                    { name: "Dr. Mohan Lal", specialty: "Radiology", experience: "20 years experience" },
+                    { name: "Dr. Rekha Sharma", specialty: "Pathology", experience: "12 years experience" }
+                ]
+            },
+            gm: {
+                name: "GM Health Care and Hospital",
+                doctors: [
+                    { name: "Dr. Santosh Kumar", specialty: "Critical Care", experience: "17 years experience" },
+                    { name: "Dr. Manjula Devi", specialty: "Physiotherapy", experience: "9 years experience" },
+                    { name: "Dr. Prakash Rao", specialty: "Sports Medicine", experience: "11 years experience" },
+                    { name: "Dr. Latha Reddy", specialty: "Nutrition & Dietetics", experience: "8 years experience" }
+                ]
+            }
+        };
+
+        function selectHospital(hospitalId) {
+            // Hide no-selection message
+            document.getElementById('no-selection').classList.add('hidden');
+            
+            // Show doctors section
+            const doctorsSection = document.getElementById('doctors-section');
+            doctorsSection.classList.remove('hidden');
+            
+            // Update hospital name
+            const hospitalData = hospitalDoctors[hospitalId];
+            document.getElementById('hospital-name').textContent = `Doctors at ${hospitalData.name}`;
+            
+            // Clear and populate doctors grid
+            const doctorsGrid = document.getElementById('doctors-grid');
+            doctorsGrid.innerHTML = '';
+            
+            hospitalData.doctors.forEach(doctor => {
+                const doctorCard = document.createElement('div');
+                doctorCard.className = 'doctor-card';
+                doctorCard.innerHTML = `
+                    <div class="doctor-name">${doctor.name}</div>
+                    <div class="doctor-specialty">${doctor.specialty}</div>
+                    <div class="doctor-experience">${doctor.experience}</div>
+                    <button class="book-appointment-btn" onclick="openAppointmentModal('${doctor.name}', '${doctor.specialty}', '${hospitalData.name}')">
+                        📅 Book Appointment
+                    </button>
+                `;
+                doctorsGrid.appendChild(doctorCard);
+            });
+        }
+
+        function openAppointmentModal(doctorName, specialty, hospitalName) {
+            const modal = document.getElementById('appointment-modal');
+            const doctorInfo = document.getElementById('selected-doctor-info');
+            
+            doctorInfo.textContent = `${doctorName} - ${specialty} at ${hospitalName}`;
+            
+            // Set minimum date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('appointment-date').min = today;
+            
+            // Reset form and hide success message
+            document.getElementById('appointment-form').reset();
+            document.getElementById('success-message').classList.add('hidden');
+            document.getElementById('appointment-form').classList.remove('hidden');
+            
+            modal.classList.remove('hidden');
+        }
+
+        function closeAppointmentModal() {
+            document.getElementById('appointment-modal').classList.add('hidden');
+        }
+
+        // Handle form submission
+        document.getElementById('appointment-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const appointmentData = {
+                patientName: formData.get('patientName'),
+                patientPhone: formData.get('patientPhone'),
+                patientEmail: formData.get('patientEmail'),
+                appointmentDate: formData.get('appointmentDate'),
+                appointmentTime: formData.get('appointmentTime'),
+                reason: formData.get('reason'),
+                doctor: document.getElementById('selected-doctor-info').textContent
+            };
+            
+            // Hide form and show success message
+            this.classList.add('hidden');
+            document.getElementById('success-message').classList.remove('hidden');
+            
+            // Auto close modal after 3 seconds
+            setTimeout(() => {
+                closeAppointmentModal();
+            }, 3000);
+        });
+
+        // Close modal when clicking outside
+        document.getElementById('appointment-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeAppointmentModal();
+            }
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98f0cf27a495c469',t:'MTc2MDU0Njk2MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
+
+            <br>
+            <br>
+            <br>
+            <br>
+             <footer>
+                <h1>thank you 
+    for more update keep visiting our website------
+    <br>
+    contact us :
+    <br>
+    we are available only on online
+    <br>
+    our email id : meditech@gmail.com </h1>
+</footer>
+<br>
+
+
+
+             
+    </form>
+</body>
+</html>
+
+    
+
+    
+     
+
+    
+        
+    
+    
+    
+
+    
+    
+    
+
+    
+        
+         
+
+        
+      
+      
+
+      

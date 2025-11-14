@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Online Doctor Consultation</title>
+  <script src="/_sdk/data_sdk.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+        body {
+            box-sizing: border-box;
+        }
+        .consultation-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .consultation-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+    </style>
+  <style>@view-transition { navigation: auto; }</style>
+ </head>
+ <body class="min-h-full bg-gradient-to-br from-blue-50 to-white">
+  <main class="container mx-auto px-4 py-8 max-w-6xl"><!-- Header -->
+   <header class="text-center mb-12">
+    <div class="flex items-center justify-center mb-4">
+     <svg class="w-12 h-12 text-blue-600 mr-3" fill="currentColor" viewbox="0 0 24 24"><path d="M19 8l-4 4h3c0 3.31-2.69 6-6 6-1.01 0-1.97-.25-2.8-.7l-1.46 1.46C8.97 19.54 10.43 20 12 20c4.42 0 8-3.58 8-8h3l-4-4zM6 12c0-3.31 2.69-6 6-6 1.01 0 1.97.25 2.8.7l1.46-1.46C15.03 4.46 13.57 4 12 4c-4.42 0-8 3.58-8 8H1l4 4 4-4H6z" />
+     </svg>
+     <h1 id="site-title" class="text-4xl font-bold text-gray-800">Online Doctor Consultation</h1>
+    </div>
+    <p id="welcome-message" class="text-xl text-gray-600 mb-6">Connect with qualified doctors from top hospitals</p>
+    <div id="emergency-notice" class="bg-red-50 border border-red-200 rounded-lg p-4 text-red-700 max-w-2xl mx-auto"><strong>⚠️ Emergency Notice:</strong> For medical emergencies, please call 108 or visit the nearest hospital
+    </div>
+   </header><!-- Navigation Tabs -->
+   <div class="flex justify-center mb-8">
+    <div class="bg-white rounded-lg shadow-md p-1 flex"><button id="book-tab" class="px-6 py-3 rounded-md font-medium transition-colors bg-blue-600 text-white"> Book Consultation </button> <button id="appointments-tab" class="px-6 py-3 rounded-md font-medium transition-colors text-gray-600 hover:text-blue-600"> My Appointments </button>
+    </div>
+   </div><!-- Book Consultation Section -->
+   <section id="booking-section" class="mb-12">
+    <div class="bg-white rounded-xl shadow-lg p-8">
+     <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Book Your Consultation</h2>
+     <form id="consultation-form" class="space-y-6">
+      <div class="grid md:grid-cols-2 gap-6">
+       <div><label for="patient-name" class="block text-sm font-medium text-gray-700 mb-2">Patient Name</label> <input type="text" id="patient-name" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+       </div>
+       <div><label for="phone" class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label> <input type="tel" id="phone" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+       </div>
+      </div>
+      <div class="grid md:grid-cols-2 gap-6">
+       <div><label for="hospital" class="block text-sm font-medium text-gray-700 mb-2">Select Hospital</label> <select id="hospital" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"> <option value="">Choose Hospital</option> <option value="Fortis Hospital">Fortis Hospital</option> <option value="Narayana Hospital">Narayana Hospital</option> <option value="Kangaroo Health Care Hospital">Kangaroo Health Care Hospital</option> <option value="Ramaiah Hospital">Ramaiah Hospital</option> <option value="Ramakrishna Hospital">Ramakrishna Hospital</option> <option value="Manipal Hospital">Manipal Hospital</option> <option value="Maggi General Hospital">Maggi General Hospital</option> <option value="GM Health Care">GM Health Care</option> </select>
+       </div>
+       <div><label for="specialty" class="block text-sm font-medium text-gray-700 mb-2">Medical Specialty</label> <select id="specialty" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"> <option value="">Choose Specialty</option> <option value="General Medicine">General Medicine</option> <option value="Cardiology">Cardiology</option> <option value="Dermatology">Dermatology</option> <option value="Orthopedics">Orthopedics</option> <option value="Pediatrics">Pediatrics</option> <option value="Gynecology">Gynecology</option> <option value="Neurology">Neurology</option> <option value="Emergency Medicine">Emergency Medicine</option> </select>
+       </div>
+      </div>
+      <div><label for="doctor" class="block text-sm font-medium text-gray-700 mb-2">Preferred Doctor</label> <select id="doctor" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"> <option value="">Select a hospital first</option> </select>
+      </div>
+      <div><label for="consultation-type" class="block text-sm font-medium text-gray-700 mb-2">Consultation Type</label> <select id="consultation-type" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"> <option value="">Choose Type</option> <option value="Video Call">Video Call</option> <option value="Phone Call">Phone Call</option> <option value="Chat">Chat Consultation</option> <option value="Emergency">Emergency Consultation</option> </select>
+      </div>
+      <div><label for="symptoms" class="block text-sm font-medium text-gray-700 mb-2">Describe Your Symptoms</label> <textarea id="symptoms" rows="4" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Please describe your symptoms and concerns..."></textarea>
+      </div>
+      <div><label for="preferred-time" class="block text-sm font-medium text-gray-700 mb-2">Preferred Time</label> <input type="datetime-local" id="preferred-time" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+      </div><button type="submit" id="submit-btn" class="w-full bg-blue-600 text-white py-4 px-6 rounded-lg font-semibold hover:bg-blue-700 transition-colors"> Book Consultation </button>
+     </form>
+    </div>
+   </section><!-- Appointments Section -->
+   <section id="appointments-section" class="hidden">
+    <div class="bg-white rounded-xl shadow-lg p-8">
+     <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">My Appointments</h2>
+     <div id="appointments-list" class="space-y-4"><!-- Appointments will be loaded here -->
+     </div>
+     <div id="no-appointments" class="text-center py-12 text-gray-500 hidden">
+      <svg class="w-16 h-16 mx-auto mb-4 text-gray-300" fill="currentColor" viewbox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z" />
+      </svg>
+      <p class="text-lg">No appointments booked yet</p>
+      <p class="text-sm">Book your first consultation to get started</p>
+     </div>
+    </div>
+   </section>
+  </main>
+  <script>
+        // Doctor data for each hospital
+        const hospitalDoctors = {
+            "Fortis Hospital": [
+                { name: "Dr. Rajesh Kumar", specialty: "Cardiology" },
+                { name: "Dr. Priya Sharma", specialty: "General Medicine" },
+                { name: "Dr. Amit Patel", specialty: "Orthopedics" },
+                { name: "Dr. Sunita Rao", specialty: "Pediatrics" }
+            ],
+            "Narayana Hospital": [
+                { name: "Dr. Vikram Singh", specialty: "Neurology" },
+                { name: "Dr. Meera Gupta", specialty: "Gynecology" },
+                { name: "Dr. Ravi Krishnan", specialty: "Emergency Medicine" },
+                { name: "Dr. Anjali Nair", specialty: "Dermatology" }
+            ],
+            "Kangaroo Health Care Hospital": [
+                { name: "Dr. Suresh Reddy", specialty: "General Medicine" },
+                { name: "Dr. Kavitha Menon", specialty: "Pediatrics" },
+                { name: "Dr. Arjun Das", specialty: "Orthopedics" },
+                { name: "Dr. Deepa Iyer", specialty: "Cardiology" }
+            ],
+            "Ramaiah Hospital": [
+                { name: "Dr. Mohan Lal", specialty: "Neurology" },
+                { name: "Dr. Sushma Devi", specialty: "Gynecology" },
+                { name: "Dr. Kiran Kumar", specialty: "Emergency Medicine" },
+                { name: "Dr. Lakshmi Prasad", specialty: "Dermatology" }
+            ],
+            "Ramakrishna Hospital": [
+                { name: "Dr. Venkat Rao", specialty: "Cardiology" },
+                { name: "Dr. Radha Krishna", specialty: "General Medicine" },
+                { name: "Dr. Srinivas Murthy", specialty: "Orthopedics" },
+                { name: "Dr. Geetha Bhat", specialty: "Pediatrics" }
+            ],
+            "Manipal Hospital": [
+                { name: "Dr. Ashok Hegde", specialty: "Neurology" },
+                { name: "Dr. Shanti Kulkarni", specialty: "Gynecology" },
+                { name: "Dr. Prakash Shetty", specialty: "Emergency Medicine" },
+                { name: "Dr. Usha Pai", specialty: "Dermatology" }
+            ],
+            "Maggi General Hospital": [
+                { name: "Dr. Ramesh Babu", specialty: "General Medicine" },
+                { name: "Dr. Suma Rani", specialty: "Pediatrics" },
+                { name: "Dr. Naresh Gowda", specialty: "Orthopedics" },
+                { name: "Dr. Bharathi Devi", specialty: "Cardiology" }
+            ],
+            "GM Health Care": [
+                { name: "Dr. Mahesh Joshi", specialty: "Neurology" },
+                { name: "Dr. Rekha Agarwal", specialty: "Gynecology" },
+                { name: "Dr. Santosh Kumar", specialty: "Emergency Medicine" },
+                { name: "Dr. Nirmala Singh", specialty: "Dermatology" }
+            ]
+        };
+
+        let currentAppointments = [];
+        let isLoading = false;
+
+        // Default configuration
+        const defaultConfig = {
+            site_title: "Online Doctor Consultation",
+            welcome_message: "Connect with qualified doctors from top hospitals",
+            emergency_notice: "For medical emergencies, please call 108 or visit the nearest hospital",
+            background_color: "#dbeafe",
+            surface_color: "#ffffff",
+            text_color: "#1f2937",
+            primary_action_color: "#2563eb",
+            secondary_action_color: "#6b7280",
+            font_family: "Inter",
+            font_size: 16
+        };
+
+        // Data SDK handler
+        const dataHandler = {
+            onDataChanged(data) {
+                currentAppointments = data;
+                renderAppointments();
+            }
+        };
+
+        // Element SDK implementation
+        async function onConfigChange(config) {
+            const customFont = config.font_family || defaultConfig.font_family;
+            const baseSize = config.font_size || defaultConfig.font_size;
+            const baseFontStack = 'system-ui, -apple-system, sans-serif';
+
+            // Update colors
+            document.body.style.background = `linear-gradient(to bottom right, ${config.background_color || defaultConfig.background_color}, #ffffff)`;
+            
+            // Update text content
+            document.getElementById('site-title').textContent = config.site_title || defaultConfig.site_title;
+            document.getElementById('welcome-message').textContent = config.welcome_message || defaultConfig.welcome_message;
+            document.getElementById('emergency-notice').innerHTML = `<strong>⚠️ Emergency Notice:</strong> ${config.emergency_notice || defaultConfig.emergency_notice}`;
+
+            // Update fonts
+            document.getElementById('site-title').style.fontFamily = `${customFont}, ${baseFontStack}`;
+            document.getElementById('welcome-message').style.fontFamily = `${customFont}, ${baseFontStack}`;
+            
+            // Update font sizes
+            document.getElementById('site-title').style.fontSize = `${baseSize * 2}px`;
+            document.getElementById('welcome-message').style.fontSize = `${baseSize * 1.25}px`;
+
+            // Update button colors
+            const primaryButtons = document.querySelectorAll('.bg-blue-600, #book-tab.bg-blue-600');
+            primaryButtons.forEach(btn => {
+                btn.style.backgroundColor = config.primary_action_color || defaultConfig.primary_action_color;
+            });
+        }
+
+        function mapToCapabilities(config) {
+            return {
+                recolorables: [
+                    {
+                        get: () => config.background_color || defaultConfig.background_color,
+                        set: (value) => {
+                            config.background_color = value;
+                            if (window.elementSdk) window.elementSdk.setConfig({ background_color: value });
+                        }
+                    },
+                    {
+                        get: () => config.surface_color || defaultConfig.surface_color,
+                        set: (value) => {
+                            config.surface_color = value;
+                            if (window.elementSdk) window.elementSdk.setConfig({ surface_color: value });
+                        }
+                    },
+                    {
+                        get: () => config.text_color || defaultConfig.text_color,
+                        set: (value) => {
+                            config.text_color = value;
+                            if (window.elementSdk) window.elementSdk.setConfig({ text_color: value });
+                        }
+                    },
+                    {
+                        get: () => config.primary_action_color || defaultConfig.primary_action_color,
+                        set: (value) => {
+                            config.primary_action_color = value;
+                            if (window.elementSdk) window.elementSdk.setConfig({ primary_action_color: value });
+                        }
+                    },
+                    {
+                        get: () => config.secondary_action_color || defaultConfig.secondary_action_color,
+                        set: (value) => {
+                            config.secondary_action_color = value;
+                            if (window.elementSdk) window.elementSdk.setConfig({ secondary_action_color: value });
+                        }
+                    }
+                ],
+                borderables: [],
+                fontEditable: {
+                    get: () => config.font_family || defaultConfig.font_family,
+                    set: (value) => {
+                        config.font_family = value;
+                        if (window.elementSdk) window.elementSdk.setConfig({ font_family: value });
+                    }
+                },
+                fontSizeable: {
+                    get: () => config.font_size || defaultConfig.font_size,
+                    set: (value) => {
+                        config.font_size = value;
+                        if (window.elementSdk) window.elementSdk.setConfig({ font_size: value });
+                    }
+                }
+            };
+        }
+
+        function mapToEditPanelValues(config) {
+            return new Map([
+                ["site_title", config.site_title || defaultConfig.site_title],
+                ["welcome_message", config.welcome_message || defaultConfig.welcome_message],
+                ["emergency_notice", config.emergency_notice || defaultConfig.emergency_notice]
+            ]);
+        }
+
+        // Initialize SDKs
+        async function initializeApp() {
+            try {
+                if (window.dataSdk) {
+                    const initResult = await window.dataSdk.init(dataHandler);
+                    if (!initResult.isOk) {
+                        console.error("Failed to initialize data SDK");
+                    }
+                }
+
+                if (window.elementSdk) {
+                    await window.elementSdk.init({
+                        defaultConfig,
+                        onConfigChange,
+                        mapToCapabilities,
+                        mapToEditPanelValues
+                    });
+                }
+            } catch (error) {
+                console.error("Initialization error:", error);
+            }
+        }
+
+        // Hospital selection handler
+        document.getElementById('hospital').addEventListener('change', function() {
+            const selectedHospital = this.value;
+            const doctorSelect = document.getElementById('doctor');
+            
+            doctorSelect.innerHTML = '<option value="">Choose Doctor</option>';
+            
+            if (selectedHospital && hospitalDoctors[selectedHospital]) {
+                hospitalDoctors[selectedHospital].forEach(doctor => {
+                    const option = document.createElement('option');
+                    option.value = doctor.name;
+                    option.textContent = `${doctor.name} - ${doctor.specialty}`;
+                    doctorSelect.appendChild(option);
+                });
+            }
+        });
+
+        // Tab switching
+        document.getElementById('book-tab').addEventListener('click', function() {
+            document.getElementById('booking-section').classList.remove('hidden');
+            document.getElementById('appointments-section').classList.add('hidden');
+            this.classList.add('bg-blue-600', 'text-white');
+            this.classList.remove('text-gray-600');
+            document.getElementById('appointments-tab').classList.remove('bg-blue-600', 'text-white');
+            document.getElementById('appointments-tab').classList.add('text-gray-600');
+        });
+
+        document.getElementById('appointments-tab').addEventListener('click', function() {
+            document.getElementById('appointments-section').classList.remove('hidden');
+            document.getElementById('booking-section').classList.add('hidden');
+            this.classList.add('bg-blue-600', 'text-white');
+            this.classList.remove('text-gray-600');
+            document.getElementById('book-tab').classList.remove('bg-blue-600', 'text-white');
+            document.getElementById('book-tab').classList.add('text-gray-600');
+        });
+
+        // Form submission
+        document.getElementById('consultation-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            if (isLoading) return;
+            
+            if (currentAppointments.length >= 999) {
+                showMessage("Maximum limit of 999 appointments reached. Please contact support.", "error");
+                return;
+            }
+
+            setLoading(true);
+
+            const formData = {
+                id: Date.now().toString(),
+                patient_name: document.getElementById('patient-name').value,
+                phone: document.getElementById('phone').value,
+                hospital: document.getElementById('hospital').value,
+                doctor: document.getElementById('doctor').value,
+                specialty: document.getElementById('specialty').value,
+                consultation_type: document.getElementById('consultation-type').value,
+                symptoms: document.getElementById('symptoms').value,
+                preferred_time: document.getElementById('preferred-time').value,
+                status: "Pending",
+                created_at: new Date().toISOString()
+            };
+
+            try {
+                if (window.dataSdk) {
+                    const result = await window.dataSdk.create(formData);
+                    if (result.isOk) {
+                        showMessage("Consultation booked successfully! You will receive a confirmation call shortly.", "success");
+                        document.getElementById('consultation-form').reset();
+                        
+                        // Switch to appointments tab
+                        document.getElementById('appointments-tab').click();
+                    } else {
+                        showMessage("Failed to book consultation. Please try again.", "error");
+                    }
+                } else {
+                    showMessage("Booking system unavailable. Please try again later.", "error");
+                }
+            } catch (error) {
+                showMessage("An error occurred. Please try again.", "error");
+            } finally {
+                setLoading(false);
+            }
+        });
+
+        function setLoading(loading) {
+            isLoading = loading;
+            const submitBtn = document.getElementById('submit-btn');
+            const form = document.getElementById('consultation-form');
+            
+            if (loading) {
+                submitBtn.textContent = 'Booking...';
+                submitBtn.disabled = true;
+                form.classList.add('loading');
+            } else {
+                submitBtn.textContent = 'Book Consultation';
+                submitBtn.disabled = false;
+                form.classList.remove('loading');
+            }
+        }
+
+        function showMessage(message, type) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `fixed top-4 right-4 p-4 rounded-lg shadow-lg z-50 ${
+                type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
+            }`;
+            messageDiv.textContent = message;
+            
+            document.body.appendChild(messageDiv);
+            
+            setTimeout(() => {
+                messageDiv.remove();
+            }, 5000);
+        }
+
+        function renderAppointments() {
+            const appointmentsList = document.getElementById('appointments-list');
+            const noAppointments = document.getElementById('no-appointments');
+            
+            if (currentAppointments.length === 0) {
+                appointmentsList.innerHTML = '';
+                noAppointments.classList.remove('hidden');
+                return;
+            }
+            
+            noAppointments.classList.add('hidden');
+            
+            appointmentsList.innerHTML = currentAppointments.map(appointment => `
+                <div class="consultation-card border border-gray-200 rounded-lg p-6 bg-gray-50">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="font-semibold text-lg text-gray-800">${appointment.patient_name}</h3>
+                            <p class="text-gray-600">${appointment.doctor} - ${appointment.hospital}</p>
+                        </div>
+                        <span class="px-3 py-1 rounded-full text-sm font-medium ${
+                            appointment.status === 'Pending' ? 'bg-yellow-100 text-yellow-800' :
+                            appointment.status === 'Confirmed' ? 'bg-green-100 text-green-800' :
+                            'bg-red-100 text-red-800'
+                        }">
+                            ${appointment.status}
+                        </span>
+                    </div>
+                    <div class="grid md:grid-cols-2 gap-4 text-sm text-gray-600">
+                        <div>
+                            <p><strong>Specialty:</strong> ${appointment.specialty}</p>
+                            <p><strong>Type:</strong> ${appointment.consultation_type}</p>
+                            <p><strong>Phone:</strong> ${appointment.phone}</p>
+                        </div>
+                        <div>
+                            <p><strong>Preferred Time:</strong> ${new Date(appointment.preferred_time).toLocaleString()}</p>
+                            <p><strong>Booked:</strong> ${new Date(appointment.created_at).toLocaleDateString()}</p>
+                        </div>
+                    </div>
+                    <div class="mt-4 p-3 bg-white rounded border">
+                        <p class="text-sm"><strong>Symptoms:</strong> ${appointment.symptoms}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Set minimum date/time to current time
+        const now = new Date();
+        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+        document.getElementById('preferred-time').min = now.toISOString().slice(0, 16);
+
+        // Initialize the application
+        initializeApp();
+    </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'99e3e254a62df487',t:'MTc2MzA5NTc4Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
